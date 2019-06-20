@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.itcast.dao.OrdersDao">
+    <resultMap id="ordermap" type="Orders">
+        <result property="id" column="oid"></result>
+        <result property="orderNum" column="ORDERNUM"></result>
+        <result property="orderTime" column="ORDERTIME"></result>
+        <result property="peopleCount" column="PEOPLECOUNT"></result>
+        <result property="orderDesc" column="ORDERDESC"></result>
+        <result property="payType" column="PAYTYPE"></result>
+        <result property="orderStatus" column="ORDERSTATUS"></result>
+        <association property="product" javaType="Product">
+            <result property="id" column="PRODUCTID"></result>
+            <result property="productNum" column="PRODUCTNUM"></result>
+            <result property="productName" column="PRODUCTNAME"></result>
+            <result property="cityName" column="CITYNAME"></result>
+            <result property="departureTime" column="DEPARTURETIME"></result>
+            <result property="productPrice" column="PRODUCTPRICE"></result>
+            <result property="productDesc" column="PRODUCTDESC"></result>
+            <result property="productStatus" column="PRODUCTSTATUS"></result>
+        </association>
+    </resultMap>
+    <select id="findAll" resultMap="ordermap">
+        select t1.id as oid,t1.*,t2.PRODUCTNUM,t2.PRODUCTNAME,t2.CITYNAME,t2.DEPARTURETIME,t2.PRODUCTPRICE,t2.PRODUCTDESC,t2.PRODUCTSTATUS from ORDERS t1,PRODUCT t2 where t1.productId = t2.id
+    </select>
+
+
+    <resultMap id="orders" type="Orders">
+        <result property="id" column="orderid"></result>
+        <result property="orderNum" column="ORDERNUM"></result>
+        <result property="orderTime" column="ORDERTIME"></result>
+        <result property="peopleCount" column="PEOPLECOUNT"></result>
+        <result property="orderDesc" column="ORDERDESC"></result>
+        <result property="payType" column="PAYTYPE"></result>
+        <result property="orderStatus" column="ORDERSTATUS"></result>
+        <association property="product" javaType="Product">
+            <result property="id" column="PRODUCTID"></result>
+            <result property="productNum" column="PRODUCTNUM"></result>
+            <result property="productName" column="PRODUCTNAME"></result>
+            <result property="cityName" column="CITYNAME"></result>
+            <result property="departureTime" column="DEPARTURETIME"></result>
+            <result property="productPrice" column="PRODUCTPRICE"></result>
+            <result property="productDesc" column="PRODUCTDESC"></result>
+            <result property="productStatus" column="PRODUCTSTATUS"></result>
+        </association>
+        <association property="member" javaType="Member">
+            <result property="id" column="memberid"></result>
+            <result property="name" column="name"></result>
+            <result property="nickname" column="nickname"></result>
+            <result property="phoneNum" column="phonenum"></result>
+            <result property="email" column="email"></result>
+        </association>
+        <collection property="travellers" ofType="Traveller">
+            <result property="id" column="TRAVELLERID"></result>
+            <result property="name" column="name"></result>
+            <result property="sex" column="sex"></result>
+            <result property="phoneNum" column="phoneNum"></result>
+            <result property="credentialsType" column="credentialsType"></result>
+            <result property="credentialsNum" column="credentialsNum"></result>
+            <result property="travellerType" column="travellerType"></result>
+        </collection>
+    </resultMap>
+    <select id="findById" parameterType="string" resultMap="orders">
+        select *
+        from orders t1,member t2,product t3,traveller t4,order_traveller t5
+        where t1.id = #{id} and t1.memberId = t2.id and t1.productId = t3.id and t5.orderId = t1.id and t5.travellerId = t4.id
+    </select>
+</mapper>

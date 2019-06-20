@@ -1,0 +1,40 @@
+使用pageHelper插件实现分页
+1.  导入依赖
+2.  在spring配置文件applicationContext.xml中配置mybatis的SqlSessionFactory中配置PageHelper插件
+        2.1 其中的某些字段的含义:
+            1>helperDialect:分页插件会自动检测当前的数据库连接，自动选择合适的分页方式
+            2>reasonable:分页合理化参数，默认值是false。
+                当设置该参数的值为true时，pageNum<0或者pageNum>最大页码就会设置默认值1,最大的页码
+3.  使用(6种方式)
+    3.1 重点掌握静态方法调用
+        PageHelper.startPage(1, 10);
+            1:pageNum   当前页码
+            10:pageSize 每页多少row
+        List<Country> list = countryMapper.selectIf(1);
+    3.1  在项目中使用
+        1> 改变OrdersController
+            1.设置参数 @RequestParam(name="page",required,default),@RequestParam(name="pageSize",required,default)
+            2.封装其他的分页信息，并返回
+        2> 改变OrdersService
+            1.使用分页
+            PageHelper.startPage(page,size);
+        3> 前端页面
+            1.设置首页 pageinfo.pageSize
+            2.设置尾页 pageinfo.pages
+            3.使用jspl中的forEach标签，展示页码，及页码的点击事件
+            4.设置改变每页显示条目的下拉框事件
+        4> 优化前端页面
+            1.填充总记录数，总页数
+            2.修改下拉框的时间
+            3.简化<c:if>使用el表达式的三元运算符代替-替换变换的值，
+            4.当需要显示的页码过多时，页面过于丑陋，所以设置只显示5个页码
+                4.1 当pages不足5个页码-全部显示
+                4.2 当pages达到5个页码时
+                    4.2.1 当前页码-前2后2
+                        前不够2(当前页码-2<0)，则令end =begin +  9;begin = 1;
+                        后不够2(当前页码+2>pages),则令begin = end - 1;end = pages;
+
+Orders{id='0E7231DC797C486290E8713CA3C6ECCC', orderNum='12345', orderTime=Fri Mar 02 12:00:00 CST 2018, orderTimeStr='null', orderStatus=1, orderStatusStr='null', peopleCount=2,
+        product=Product{id='676C5BD1D35E429A8C2E114939C5685A', productNum='itcast-002', productName='北京三日游', cityName='北京', departureTime=Wed Oct 10 10:10:00 CST 2018, departureTimeStr='null', productPrice=1200.0, productDesc='不错的旅行', productStatus=1, productStatusStr='null'},
+        travellers=[Traveller{id='3FE27DF2A4E44A6DBC5D0FE4651D3D3E', name='张三', sex='男', phoneNum='18888888888', credentialsType=0, credentialsTypeStr='null', credentialsNum='123456789009876543', travellerType=0, travellerTypeStr='null'}],
+        member=Member{id='E61D65F673D54F68B0861025C69773DB', name='张三', nickname='小三', phoneNum='18888888888', email='zs@163.com'}, payType=0, payTypeStr='null', orderDesc='没什么'}
