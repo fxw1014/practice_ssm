@@ -197,21 +197,21 @@
                 </configuration>
             </plugin>
 
-            <!--tomcat7插件-->
+           <!-- &lt;!&ndash;tomcat7插件&ndash;&gt;
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.1</version>
-                <!--加入参数进行配置-->
+                &lt;!&ndash;加入参数进行配置&ndash;&gt;
                 <configuration>
-                    <!--修改tomcat端口号,建议使用80-->
+                    &lt;!&ndash;修改tomcat端口号,建议使用80&ndash;&gt;
                     <port>80</port>
-                    <!--修改tomcat当前项目虚拟目录（项目的访问路径）-->
+                    &lt;!&ndash;修改tomcat当前项目虚拟目录（项目的访问路径）&ndash;&gt;
                     <path>/</path>
-                    <!--设置tomcat编码格式从iso变为utf-8-->
+                    &lt;!&ndash;设置tomcat编码格式从iso变为utf-8&ndash;&gt;
                     <uriEncoding>utf-8</uriEncoding>
                 </configuration>
-            </plugin>
+            </plugin>-->
         </plugins>
 
     </build>

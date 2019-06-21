@@ -7,7 +7,7 @@
     <!--配置全局初始化参数-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath*:applicationContext.xml</param-value>
+        <param-value>classpath*:applicationContext.xml,classpath*:spring-security.xml</param-value>
     </context-param>
     <!--配置监听器，加载spring配置文件，初始化spring容器-->
     <listener>
@@ -47,4 +47,25 @@
         <servlet-name>DisptcherServlet</servlet-name>
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>
+
+
+    <!--配置委托代理过滤器-->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.htm</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>default.html</welcome-file>
+        <welcome-file>default.htm</welcome-file>
+        <welcome-file>default.jsp</welcome-file>
+    </welcome-file-list>
 </web-app>
